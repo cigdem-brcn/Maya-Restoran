@@ -3,207 +3,109 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Müşteri & Rezervasyon | Maya</title>
+    <title>Müşteriler | Maya</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans:wght@400;500&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
-        :root {
-            --bg: #0d0d0b;
-            --surface: #151512;
-            --border: rgba(255, 255, 255, 0.07);
-            --gold: #c9a84c;
-            --text: #f0ece2;
-            --muted: #8a8778;
-            --danger: #c0453a;
-            --success: #4a9e6b;
-            --radius: 12px;
+        .upd-input {
+            background: #0d0d0b;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 6px;
+            border-radius: 4px;
+            font-size: 12px;
+            width: 100px;
         }
 
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            margin: 0;
-            display: flex;
-        }
-
-        .sidebar {
-            width: 240px;
-            background: var(--surface);
-            height: 100vh;
-            position: fixed;
-            border-right: 1px solid var(--border);
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px;
-            border-radius: 8px;
-            color: var(--muted);
-            text-decoration: none;
-            margin: 5px 12px;
-            transition: 0.2s;
-        }
-
-        .nav-item.active {
-            background: rgba(201, 168, 76, 0.15);
-            color: var(--gold);
-        }
-
-        .main {
-            flex: 1;
-            margin-left: 240px;
-            padding: 40px;
-        }
-
-        .alert {
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-            text-align: center;
-        }
-
-        .alert-danger {
-            background: rgba(192, 69, 58, 0.1);
-            color: var(--danger);
-            border: 1px solid var(--danger);
-        }
-
-        .alert-success {
-            background: rgba(74, 158, 107, 0.1);
-            color: var(--success);
-            border: 1px solid var(--success);
-        }
-
-        .card {
-            background: var(--surface);
-            padding: 30px;
-            border-radius: var(--radius);
-            border: 1px solid var(--border);
-            margin-bottom: 30px;
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        input {
-            background: #1c1c18;
-            border: 1px solid var(--border);
-            padding: 12px;
-            border-radius: 8px;
-            color: var(--text);
-            outline: none;
-        }
-
-        input:focus {
-            border-color: var(--gold);
-        }
-
-        .btn {
-            grid-column: span 4;
-            background: var(--gold);
-            color: #000;
+        .btn-guncelle {
+            background: #c9a84c;
+            color: black;
             border: none;
-            padding: 14px;
-            border-radius: 8px;
-            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 4px;
             cursor: pointer;
-            transition: 0.2s;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: var(--surface);
-            border-radius: var(--radius);
-            overflow: hidden;
-        }
-
-        th {
-            text-align: left;
-            padding: 15px 20px;
-            color: var(--muted);
             font-size: 11px;
-            text-transform: uppercase;
-            border-bottom: 1px solid var(--border);
+            font-weight: bold;
         }
 
-        td {
-            padding: 15px 20px;
-            border-bottom: 1px solid var(--border);
-            font-size: 14px;
+        .btn-sil {
+            background: #c0453a;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
         }
     </style>
 </head>
 
 <body>
     <aside class="sidebar">
-        <div style="padding: 30px; font-family: 'Playfair Display'; font-size: 24px; color: var(--gold);">Lezzet</div>
+        <div class="logo">
+            <div class="logo-name">MAYA</div>
+            <div class="logo-sub">Yönetim Sistemi</div>
+        </div>
         <nav>
-            <a href="/" class="nav-item {% if sayfa == 'genel' %}active{% endif %}">📊 Genel Bakış</a>
-            <a href="/masalar" class="nav-item {% if sayfa == 'masa' %}active{% endif %}">🪑 Masalar</a>
-            <a href="/musteriler" class="nav-item {% if sayfa == 'musteri' %}active{% endif %}">👥 Müşteriler</a>
+            <a href="/" class="nav-item">📊 Genel Bakış</a>
+            <a href="/masalar" class="nav-item">🪑 Masalar</a>
+            <a href="/musteriler" class="nav-item active">👥 Müşteriler</a>
+            <a href="/menu" class="nav-item">🍽️ Menü / Ürünler</a>
+            <a href="/siparisler" class="nav-item">🧾 Siparişler</a>
         </nav>
     </aside>
-    <main class="main">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}{% for category, message in messages %}<div class="alert alert-{{ category }}">{{ message }}
-        </div>{% endfor %}{% endif %}
-        {% endwith %}
-        <div class="card">
-            <h2 style="font-family: 'Playfair Display'; color: var(--gold); margin-top: 0;">📞 Rezervasyon ve Müşteri
-                Kaydı</h2>
-            <form action="/rezervasyon-olustur" method="POST" class="form-grid">
-                <div class="form-group"><label style="font-size: 11px; color: var(--muted);">AD</label><input
-                        type="text" name="ad" required></div>
-                <div class="form-group"><label style="font-size: 11px; color: var(--muted);">SOYAD</label><input
-                        type="text" name="soyad" required></div>
-                <div class="form-group"><label style="font-size: 11px; color: var(--muted);">TELEFON</label><input
-                        type="text" name="telefon" placeholder="05xx" required></div>
-                <div class="form-group"><label style="font-size: 11px; color: var(--muted);">MASA NO</label><input
-                        type="number" name="masa_id" required></div>
-                <div class="form-group"><label style="font-size: 11px; color: var(--muted);">TARİH</label><input
-                        type="date" name="tarih" required></div>
-                <div class="form-group"><label style="font-size: 11px; color: var(--muted);">SAAT</label><input
-                        type="time" name="saat" required></div>
-                <div class="form-group"><label style="font-size: 11px; color: var(--muted);">KİŞİ SAYISI</label><input
-                        type="number" name="kisi_sayisi" min="1" required></div>
-                <button type="submit" class="btn">Rezervasyonu Tamamla</button>
-            </form>
+
+    <main class="main" style="flex: 1; margin-left: 240px; padding: 40px;">
+        <div class="card"
+            style="background: #151512; border: 1px solid rgba(255,255,255,0.07); padding: 25px; border-radius: 12px;">
+            <h2 style="font-family: 'Playfair Display'; color: #c9a84c; margin-bottom: 25px;">Müşteri Yönetimi</h2>
+
+            <table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                        <th style="padding: 15px; font-size: 11px; color: #8a8778; text-align: left;">ID</th>
+                        <th style="padding: 15px; font-size: 11px; color: #8a8778; text-align: left;">AD SOYAD</th>
+                        <th style="padding: 15px; font-size: 11px; color: #8a8778; text-align: left;">GÜNCELLE (Tarih |
+                            Saat | Masa)</th>
+                        <th style="padding: 15px; font-size: 11px; color: #8a8778; text-align: left;">İŞLEM</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for m in musteriler %}
+                    <tr style="border-bottom: 1px solid rgba(255,255,255,0.07);">
+                        <td style="padding: 15px; color: #8a8778;">#{{ loop.index }}</td>
+
+                        <td style="padding: 15px;">{{ m.Ad }} {{ m.Soyad }}</td>
+
+                        <td style="padding: 15px;">
+                            <form action="/rezervasyon_guncelle/{{ m.Musteri_ID }}" method="POST"
+                                style="display: flex; gap: 8px;">
+                                <input type="date" name="tarih" class="upd-input"
+                                    value="{{ m.Tarih.strftime('%Y-%m-%d') if m.Tarih else '' }}" required>
+
+                                <input type="time" name="saat" class="upd-input" style="width: 70px;"
+                                    value="{{ m.Tarih.strftime('%H:%M') if m.Tarih else '' }}" required>
+
+                                <input type="number" name="masa_id" placeholder="Masa" class="upd-input"
+                                    style="width: 50px;" value="{{ m.Masa_ID if m.Masa_ID else '' }}" required>
+
+                                <button type="submit" class="btn-guncelle">KAYDET</button>
+                            </form>
+                        </td>
+
+                        <td style="padding: 15px;">
+                            <form action="/musteri_sil/{{ m.Musteri_ID }}" method="POST">
+                                <button type="submit" class="btn-sil"
+                                    onclick="return confirm('Müşteriyi ve rezervasyonunu silmek istediğinize emin misiniz?')">SİL</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-        <table>
-            <thead>
-                <tr>
-                    <th>Müşteri ID</th>
-                    <th>Ad Soyad</th>
-                    <th>Telefon</th>
-                    <th>Durum</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for m in musteriler %}
-                <tr>
-                    <td style="color: var(--muted);">#M-{{ m.Musteri_ID }}</td>
-                    <td style="font-weight: 500;">{{ m.Ad }} {{ m.Soyad }}</td>
-                    <td>{{ m.Telefon }}</td>
-                    <td><span style="color: var(--success);">● Aktif</span></td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
     </main>
 </body>
 

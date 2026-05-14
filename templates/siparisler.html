@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Siparişler | Maya</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        .urun-select {
+            background: #0d0d0b;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .adet-input {
+            background: #0d0d0b;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            width: 60px;
+        }
+
+        .btn-ekle {
+            background: #c9a84c;
+            color: black;
+            border: none;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            width: 100%;
+            transition: 0.3s;
+        }
+
+        .btn-ekle:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="logo" style="padding: 30px 25px;">
+            <div style="font-family: 'Playfair Display'; font-size: 24px; color: #c9a84c;">MAYA</div>
+            <div style="font-size: 10px; color: #8a8778; letter-spacing: 2px;">YÖNETİM</div>
+        </div>
+        <nav>
+            <a href="/" class="nav-item {% if sayfa == 'genel' %}active{% endif %}">Genel Bakış</a>
+            <a href="/masalar" class="nav-item {% if sayfa == 'masa' %}active{% endif %}">Masalar</a>
+            <a href="/musteriler" class="nav-item {% if sayfa == 'musteri' %}active{% endif %}">Müşteriler</a>
+            <a href="/menu" class="nav-item {% if sayfa == 'menu' %}active{% endif %}">Menü / Ürünler</a>
+            <a href="/siparisler" class="nav-item {% if sayfa == 'siparis' %}active{% endif %}">Siparişler</a>
+        </nav>
+    </aside>
+
+    <main class="main" style="flex: 1; margin-left: 240px; padding: 40px;">
+        <h2 style="font-family: 'Playfair Display'; color: #c9a84c; margin-bottom: 25px;">Aktif Adisyonlar</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px;">
+
+            {% for s in siparisler %}
+            <div class="card"
+                style="background: #151512; border: 1px solid rgba(255,255,255,0.07); padding: 20px; border-radius: 12px;">
+                <div style="font-size: 11px; color: #8a8778;">ADİSYON NO: #S-{{ s.Siparis_Id }}</div>
+                <h3 style="color: #c9a84c; margin: 10px 0;">Masa {{ s.Masa_Id }} <span
+                        style="font-size: 12px; color:#8a8778;">({{ s.Konum }})</span></h3>
+
+                <div style="font-size: 28px; font-weight: bold; margin: 15px 0;">₺{{ s.Tutar }}</div>
+
+                <hr style="border: 0; border-top: 1px solid rgba(255,255,255,0.05); margin: 15px 0;">
+
+                <h4 style="font-size: 12px; color: #8a8778; margin-bottom: 10px;">Siparişe Ürün Ekle</h4>
+
+                <form action="/urune_ekle" method="POST" style="display: flex; flex-direction: column; gap: 8px;">
+                    <input type="hidden" name="siparis_id" value="{{ s.Siparis_Id }}">
+
+                    <select name="urun_id" class="urun-select" required>
+                        <option value="" disabled selected>Ürün Seçin...</option>
+                        {% for u in urunler %}
+                        <option value="{{ u.Urun_Id }}">{{ u.Urun_Adi }} - ₺{{ u.Fiyat }}</option>
+                        {% endfor %}
+                    </select>
+
+                    <div style="display: flex; gap: 8px;">
+                        <input type="number" name="adet" value="1" min="1" class="adet-input" required>
+                        <button type="submit" class="btn-ekle">+ EKLE</button>
+                    </div>
+                </form>
+
+            </div>
+            {% endfor %}
+
+        </div>
+    </main>
+</body>
+
+</html>

@@ -7,114 +7,33 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans:wght@400;500&display=swap"
         rel="stylesheet">
-    <style>
-        :root {
-            --bg: #0d0d0b;
-            --surface: #151512;
-            --border: rgba(255, 255, 255, 0.07);
-            --gold: #c9a84c;
-            --text: #f0ece2;
-            --muted: #8a8778;
-            --success: #4a9e6b;
-            --danger: #c0453a;
-        }
-
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            margin: 0;
-            display: flex;
-        }
-
-        .sidebar {
-            width: 240px;
-            background: var(--surface);
-            height: 100vh;
-            position: fixed;
-            border-right: 1px solid var(--border);
-        }
-
-        .nav-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 12px;
-            border-radius: 8px;
-            color: var(--muted);
-            text-decoration: none;
-            margin: 5px 12px;
-            transition: 0.2s;
-        }
-
-        .nav-item.active {
-            background: rgba(201, 168, 76, 0.15);
-            color: var(--gold);
-        }
-
-        .main {
-            flex: 1;
-            margin-left: 240px;
-            padding: 40px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 25px;
-            text-align: center;
-        }
-
-        .badge {
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .badge-free {
-            background: rgba(74, 158, 107, 0.1);
-            color: var(--success);
-        }
-
-        .badge-busy {
-            background: rgba(192, 69, 58, 0.1);
-            color: var(--danger);
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 
 <body>
     <aside class="sidebar">
-        <div style="padding: 30px; font-family: 'Playfair Display'; font-size: 24px; color: var(--gold);">Lezzet</div>
+        <div class="logo">
+            <div class="logo-name">MAYA</div>
+            <div class="logo-sub">Yönetim Sistemi</div>
+        </div>
         <nav>
-            <a href="/" class="nav-item {% if sayfa == 'genel' %}active{% endif %}">📊 Genel Bakış</a>
-            <a href="/masalar" class="nav-item {% if sayfa == 'masa' %}active{% endif %}">🪑 Masalar</a>
-            <a href="/musteriler" class="nav-item {% if sayfa == 'musteri' %}active{% endif %}">👥 Müşteriler</a>
+            <a href="/" class="nav-item">📊 Genel Bakış</a>
+            <a href="/masalar" class="nav-item active">🪑 Masalar</a>
+            <a href="/musteriler" class="nav-item">👥 Müşteriler</a>
+            <a href="/menu" class="nav-item">🍽️ Menü / Ürünler</a>
+            <a href="/siparisler" class="nav-item">🧾 Siparişler</a>
         </nav>
     </aside>
+
     <main class="main">
-        <h1 style="font-family: 'Playfair Display'; color: var(--gold); margin-bottom: 30px;">Masa Durumu</h1>
-        <div class="grid">
+        <h2 style="font-family: 'Playfair Display'; color: #c9a84c; margin-bottom: 30px;">🪑 Restoran Masaları</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px;">
             {% for m in masalar %}
-            <div class="card">
-                <div style="font-family: 'Playfair Display'; font-size: 20px; color: var(--gold); margin-bottom: 10px;">
-                    Masa #{{ m.Masa_ID }}</div>
-                <div style="color: var(--muted); font-size: 13px; margin-bottom: 15px;">{{ m.Konum }} ({{ m.Kapasite }}
-                    Kişi)</div>
-                {% if m.Masa_ID in rezerve_masalar %}
-                <span class="badge badge-busy">● Rezerve</span>
-                {% else %}
-                <span class="badge badge-free">● Uygun</span>
-                {% endif %}
+            <div class="card" style="text-align: center;">
+                <div style="font-family: 'Playfair Display'; font-size: 22px; color: #c9a84c;">Masa #{{ m.Masa_ID }}
+                </div>
+                <div style="color: #8a8778; font-size: 13px; margin: 10px 0;">{{ m.Konum }}</div>
+                <div style="font-size: 12px; font-weight: bold;">{{ m.Kapasite }} Kişilik</div>
             </div>
             {% endfor %}
         </div>

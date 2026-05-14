@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Menü | Maya</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <aside class="sidebar">
+        <div class="logo">
+            <div class="logo-name">MAYA</div>
+            <div class="logo-sub">Yönetim Sistemi</div>
+        </div>
+        <nav>
+            <a href="/" class="nav-item">📊 Genel Bakış</a>
+            <a href="/masalar" class="nav-item">🪑 Masalar</a>
+            <a href="/musteriler" class="nav-item">👥 Müşteriler</a>
+            <a href="/menu" class="nav-item active">🍽️ Menü / Ürünler</a>
+            <a href="/siparisler" class="nav-item">🧾 Siparişler</a>
+        </nav>
+    </aside>
+    <main class="main">
+        <div class="card">
+            <h2 style="font-family: 'Playfair Display'; color: var(--gold);">🍽️ Güncel Menü</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Ürün Adı</th>
+                        <th>Fiyat</th>
+                        <th>Açıklama</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for u in urunler %}
+                    <tr>
+                        <td style="color: var(--muted);">#{{ u.Urun_ID }}</td>
+
+                        <td style="font-weight: 500;">{{ u.Urun_Adi }}</td>
+
+                        <td style="font-weight: bold; color: var(--gold);">₺{{ u.Fiyat }}</td>
+
+                        <td style="font-size: 13px; color: var(--text); opacity: 0.8;">{{ u.Aciklama }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </main>
+</body>
+
+</html>

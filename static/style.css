@@ -3,10 +3,7 @@
     --surface: #151512;
     --surface2: #1c1c18;
     --border: rgba(255, 255, 255, 0.07);
-    --border2: rgba(255, 255, 255, 0.13);
     --gold: #c9a84c;
-    --gold-light: #e8c97a;
-    --gold-dim: rgba(201, 168, 76, 0.15);
     --text: #f0ece2;
     --muted: #8a8778;
     --danger: #c0453a;
@@ -24,657 +21,123 @@ body {
     font-family: 'DM Sans', sans-serif;
     background: var(--bg);
     color: var(--text);
-    min-height: 100vh;
     display: flex;
+    min-height: 100vh;
 }
 
-/* SIDEBAR */
+/* SIDEBAR - SABİT VE ŞIK */
 .sidebar {
     width: 240px;
-    min-height: 100vh;
+    height: 100vh;
     background: var(--surface);
     border-right: 1px solid var(--border);
+    position: fixed;
     display: flex;
     flex-direction: column;
-    position: fixed;
-    top: 0;
-    left: 0;
     z-index: 100;
 }
 
 .logo {
-    padding: 28px 24px 20px;
+    padding: 30px 25px;
     border-bottom: 1px solid var(--border);
 }
 
 .logo-name {
     font-family: 'Playfair Display', serif;
-    font-size: 20px;
+    font-size: 24px;
     color: var(--gold);
-    letter-spacing: 0.5px;
 }
 
 .logo-sub {
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-top: 3px;
-}
-
-.nav {
-    padding: 16px 12px;
-    flex: 1;
-}
-
-.nav-section {
     font-size: 10px;
     color: var(--muted);
     letter-spacing: 2px;
     text-transform: uppercase;
-    padding: 12px 12px 6px;
 }
 
 .nav-item {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
-    border-radius: 8px;
-    cursor: pointer;
+    gap: 12px;
+    padding: 15px 25px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: 0.2s;
     font-size: 14px;
-    color: var(--muted);
-    transition: all 0.15s;
-    margin-bottom: 2px;
 }
 
-.nav-item:hover {
-    background: var(--gold-dim);
-    color: var(--text);
-}
-
+.nav-item:hover,
 .nav-item.active {
-    background: var(--gold-dim);
+    background: rgba(201, 168, 76, 0.1);
     color: var(--gold);
 }
 
-.nav-icon {
-    font-size: 16px;
-    width: 20px;
-    text-align: center;
-}
-
-.nav-badge {
-    margin-left: auto;
-    background: var(--gold);
-    color: #000;
-    font-size: 10px;
-    font-weight: 500;
-    padding: 2px 7px;
-    border-radius: 20px;
-}
-
-/* MAIN */
+/* ANA ALAN */
 .main {
-    margin-left: 240px;
     flex: 1;
-    display: flex;
-    flex-direction: column;
+    margin-left: 240px;
+    padding: 40px;
 }
 
-.topbar {
+.card {
     background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 16px 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    z-index: 50;
-}
-
-.page-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 22px;
-    color: var(--text);
-}
-
-.topbar-right {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
-
-.date-badge {
-    font-size: 12px;
-    color: var(--muted);
-    background: var(--surface2);
-    padding: 6px 14px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-}
-
-.avatar {
-    width: 34px;
-    height: 34px;
-    background: var(--gold-dim);
-    border: 1px solid var(--gold);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 13px;
-    color: var(--gold);
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.content {
-    padding: 28px 32px;
-}
-
-/* STAT CARDS */
-/* MAYA RESTORAN ÖZEL BAŞLIK STİLİ */
-.brand-header {
-    text-align: center;
-    padding: 40px 0;
-    margin-bottom: 30px;
-    background: linear-gradient(to right, transparent, var(--gold-dim), transparent);
+    padding: 30px;
     border-radius: var(--radius);
-}
-
-.brand-content {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    margin-bottom: 10px;
-}
-
-.brand-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 48px;
-    font-weight: 700;
-    color: var(--gold);
-    letter-spacing: 8px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    margin: 0;
-}
-
-.brand-icon {
-    font-size: 24px;
-    opacity: 0.8;
-}
-
-.brand-subtitle {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    color: var(--muted);
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    margin-top: 5px;
-}
-
-.brand-line {
-    width: 60px;
-    height: 1px;
-    background: var(--gold);
-    margin: 15px auto;
-    opacity: 0.5;
-}
-
-/* TABLES GRID */
-.section-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 17px;
-    margin-bottom: 16px;
-    color: var(--text);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.section-title span {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    color: var(--muted);
-    font-weight: 300;
-}
-
-.tables-map {
-    background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 24px;
-    margin-bottom: 28px;
+    margin-bottom: 25px;
 }
 
+/* MASALAR - KAYMAYI ÖNLEYEN YAPI */
 .tables-grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
-    gap: 12px;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 15px;
 }
 
 .table-slot {
-    aspect-ratio: 1;
-    border-radius: 10px;
+    aspect-ratio: 1 / 1;
     border: 1px solid var(--border);
+    border-radius: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s;
-    position: relative;
-    font-size: 12px;
-}
-
-.table-slot:hover {
-    border-color: var(--border2);
-    transform: scale(1.03);
-}
-
-.table-slot.bos {
     background: var(--surface2);
-    color: var(--muted);
+    transition: border-color 0.3s, background 0.3s;
+    /* Büyüme (scale) kaldırıldı */
 }
 
-.table-slot.dolu {
-    background: rgba(201, 168, 76, 0.1);
-    border-color: rgba(201, 168, 76, 0.3);
-    color: var(--gold);
-}
-
-.table-slot.rezerve {
-    background: rgba(74, 158, 107, 0.1);
-    border-color: rgba(74, 158, 107, 0.3);
-    color: var(--success);
-}
-
-.table-no {
-    font-size: 18px;
-    font-weight: 500;
-}
-
-.table-cap {
-    font-size: 10px;
-    margin-top: 3px;
-    opacity: 0.7;
-}
-
-.table-loc {
-    font-size: 9px;
-    margin-top: 2px;
-    opacity: 0.5;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-}
-
-/* --- RENKLENDİRME SİHİRİ --- */
-
-/* 1. DOLU MASA (SARI/GOLD PARLAMA) */
-.table-slot.dolu {
-    border: 1px solid var(--gold) !important;
-    /* Çerçeveyi altın yap */
-    background: rgba(201, 168, 76, 0.1) !important;
-    /* İçine hafif altın rengi bir toz bulutu ekle */
-    box-shadow: 0 0 15px rgba(201, 168, 76, 0.1);
-    /* Hafifçe parlasın */
-}
-
-/* Dolu masanın numarasını ve yazılarını altın yap */
-.table-slot.dolu .table-no,
-.table-slot.dolu .table-cap,
-.table-slot.dolu .table-loc {
-    color: var(--gold) !important;
-}
-
-/* 2. REZERVE MASA (YEŞİL PARLAMA) */
-.table-slot.rezerve {
-    border: 1px solid var(--success) !important;
-    /* Çerçeveyi yeşil yap */
-    background: rgba(74, 158, 107, 0.1) !important;
-    /* İçine hafif yeşil tonu ekle */
-    box-shadow: 0 0 15px rgba(74, 158, 107, 0.1);
-}
-
-/* Rezerve masanın yazılarını yeşil yap */
-.table-slot.rezerve .table-no,
-.table-slot.rezerve .table-cap,
-.table-slot.rezerve .table-loc {
-    color: var(--success) !important;
-}
-
-/* 3. BOŞ MASA (SÖNÜK) */
 .table-slot.bos {
-    opacity: 0.5;
-    /* Daha karanlık dursun */
-    border: 1px solid var(--border);
+    opacity: 0.6;
 }
 
-/* LEGEND */
-.legend {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 16px;
-    font-size: 12px;
-    color: var(--muted);
+.table-slot.dolu {
+    border: 2px solid var(--gold) !important;
+    background: rgba(201, 168, 76, 0.1) !important;
 }
 
-.legend-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    display: inline-block;
-    margin-right: 6px;
+.table-slot.rezerve {
+    border: 2px solid var(--success) !important;
+    background: rgba(74, 158, 107, 0.1) !important;
 }
 
-/* TWO COL */
-.two-col {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    margin-bottom: 28px;
-}
-
-/* TABLE */
-.data-table {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    overflow: hidden;
-}
-
-.data-table-header {
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-.data-table-title {
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--text);
-}
-
-.btn-sm {
-    font-size: 11px;
-    padding: 6px 14px;
-    border-radius: 6px;
-    border: 1px solid var(--gold);
-    background: transparent;
-    color: var(--gold);
-    cursor: pointer;
-    transition: all 0.15s;
-    font-family: 'DM Sans', sans-serif;
-}
-
-.btn-sm:hover {
-    background: var(--gold-dim);
-}
-
+/* TABLO TASARIMI */
 table {
     width: 100%;
     border-collapse: collapse;
 }
 
 th {
-    font-size: 10px;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    color: var(--muted);
-    padding: 10px 20px;
     text-align: left;
+    padding: 15px;
+    color: var(--muted);
+    font-size: 11px;
+    text-transform: uppercase;
     border-bottom: 1px solid var(--border);
-    font-weight: 400;
 }
 
 td {
-    padding: 12px 20px;
-    font-size: 13px;
-    color: var(--text);
+    padding: 15px;
     border-bottom: 1px solid var(--border);
-}
-
-tr:last-child td {
-    border-bottom: none;
-}
-
-tr:hover td {
-    background: var(--surface2);
-}
-
-.badge {
-    display: inline-block;
-    padding: 3px 10px;
-    border-radius: 20px;
-    font-size: 11px;
-    font-weight: 500;
-}
-
-.badge-gold {
-    background: rgba(201, 168, 76, 0.15);
-    color: var(--gold);
-}
-
-.badge-green {
-    background: rgba(74, 158, 107, 0.15);
-    color: var(--success);
-}
-
-.badge-red {
-    background: rgba(192, 69, 58, 0.15);
-    color: var(--danger);
-}
-
-/* MENU GRID */
-.menu-grid {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px;
-    margin-bottom: 28px;
-}
-
-.menu-items {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-top: 4px;
-}
-
-.menu-item {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 16px;
-    cursor: pointer;
-    transition: all 0.15s;
-}
-
-.menu-item:hover {
-    border-color: rgba(201, 168, 76, 0.3);
-}
-
-.menu-item-emoji {
-    font-size: 24px;
-    margin-bottom: 8px;
-}
-
-.menu-item-name {
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 4px;
-}
-
-.menu-item-desc {
-    font-size: 11px;
-    color: var(--muted);
-    margin-bottom: 8px;
-    line-height: 1.5;
-}
-
-.menu-item-price {
-    font-size: 15px;
-    color: var(--gold);
-    font-weight: 500;
-}
-
-.menu-item-cat {
-    font-size: 10px;
-    color: var(--muted);
-    margin-top: 4px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-}
-
-/* RESERVATION FORM */
-.rezerv-card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 24px;
-}
-
-.form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 14px;
-    margin-bottom: 14px;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.form-label {
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-}
-
-.form-input {
-    background: var(--surface2);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 10px 14px;
-    font-size: 13px;
-    color: var(--text);
-    font-family: 'DM Sans', sans-serif;
-    outline: none;
-    transition: border-color 0.15s;
-}
-
-.form-input:focus {
-    border-color: rgba(201, 168, 76, 0.5);
-}
-
-.form-input option {
-    background: var(--surface2);
-}
-
-.btn-primary {
-    width: 100%;
-    padding: 12px;
-    background: var(--gold);
-    color: #000;
-    border: none;
-    border-radius: 8px;
     font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.15s;
-    margin-top: 8px;
-}
-
-.btn-primary:hover {
-    background: var(--gold-light);
-}
-
-/* ACTIVE ORDER PANEL */
-.order-panel {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 20px;
-}
-
-.order-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--border);
-    font-size: 13px;
-}
-
-.order-row:last-child {
-    border-bottom: none;
-}
-
-.order-left {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.order-num {
-    color: var(--muted);
-    font-size: 11px;
-}
-
-.order-total {
-    color: var(--gold);
-    font-weight: 500;
-}
-
-.divider {
-    height: 1px;
-    background: var(--border);
-    margin: 24px 0;
-}
-
-/* --- CANLI RENKLENDİRME --- */
-.table-slot.dolu {
-    border: 1px solid var(--gold) !important;
-    background: rgba(201, 168, 76, 0.15) !important;
-    box-shadow: 0 0 15px var(--gold-dim);
-}
-
-.table-slot.dolu .table-no {
-    color: var(--gold) !important;
-}
-
-.table-slot.rezerve {
-    border: 1px solid var(--success) !important;
-    background: rgba(74, 158, 107, 0.15) !important;
-    box-shadow: 0 0 15px rgba(74, 158, 107, 0.1);
-}
-
-.table-slot.rezerve .table-no {
-    color: var(--success) !important;
-}
-
-.table-slot.bos {
-    opacity: 0.6;
-    border: 1px solid var(--border);
-}
-
-/* Bu kodlar her şeyi ezer ve kesin renk verir */
-.table-slot.dolu {
-    background-color: rgba(201, 168, 76, 0.2) !important;
-    border: 2px solid var(--gold) !important;
-}
-
-.table-slot.rezerve {
-    background-color: rgba(74, 158, 107, 0.2) !important;
-    border: 2px solid var(--success) !important;
 }

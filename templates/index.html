@@ -3,337 +3,142 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maya Yönetim Sistemi</title>
+    <title>MAYA | Panel</title>
     <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=DM+Sans:wght@400;500&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="../static/style.css    ">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body>
-
-    <!-- SIDEBAR -->
     <aside class="sidebar">
         <div class="logo">
             <div class="logo-name">MAYA</div>
             <div class="logo-sub">Yönetim Sistemi</div>
         </div>
-        <nav class="nav">
-            <div class="nav-section">Ana Menü</div>
-            <div class="nav-item active">
-                <span class="nav-icon">📊</span> Genel Bakış
-            </div>
-            <a href="/masalar" style="text-decoration: none;">
-                <div class="nav-item {% if sayfa == 'masa' %}active{% endif %}">
-                    <span class="nav-icon">🪑</span> Masalar
-                </div>
-            </a>
-            <div class="nav-item">
-                <span class="nav-icon">🗓️</span> Rezervasyonlar
-                <span class="nav-badge">3</span>
-            </div>
-            <div class="nav-item">
-                <span class="nav-icon">🧾</span> Siparişler
-                <span class="nav-badge">5</span>
-            </div>
-            <div class="nav-section">Yönetim</div>
-            <div class="nav-item">
-                <span class="nav-icon">🍽️</span> Menü / Ürünler
-            </div>
-            <a href="/musteriler" style="text-decoration: none;">
-                <div class="nav-item">
-                    <span class="nav-icon">👥</span> Müşteriler
-                </div>
-            </a>
-            <div class="nav-item">
-                <span class="nav-icon">📈</span> Raporlar
-            </div>
-            <div class="nav-section">Sistem</div>
-            <div class="nav-item">
-                <span class="nav-icon">⚙️</span> Ayarlar
-            </div>
+        <nav>
+            <a href="/" class="nav-item active">📊 Genel Bakış</a>
+            <a href="/masalar" class="nav-item">🪑 Masalar</a>
+            <a href="/musteriler" class="nav-item">👥 Müşteriler</a>
+            <a href="/menu" class="nav-item">🍽️ Menü / Ürünler</a>
+            <a href="/siparisler" class="nav-item">🧾 Siparişler</a>
         </nav>
     </aside>
 
-    <!-- MAIN -->
     <main class="main">
-        <div class="topbar">
-            <div class="page-title">Genel Bakış</div>
-            <div class="topbar-right">
-                <div class="date-badge">Bugün</div>
-                <div class="avatar">🐶</div>
+        <h1 style="font-family: 'Playfair Display'; color: var(--gold); text-align: center; margin-bottom: 30px;">MAYA
+            RESTORAN</h1>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 40px;">
+            <div class="card" style="text-align: center; border-left: 4px solid var(--gold);">
+                <div style="color: var(--muted); font-size: 14px; margin-bottom: 8px;">Toplam Masa</div>
+                <div style="font-size: 24px; font-weight: bold;">{{ masalar|length }}</div>
+            </div>
+            <div class="card" style="text-align: center; border-left: 4px solid var(--success);">
+                <div style="color: var(--muted); font-size: 14px; margin-bottom: 8px;">Şu An Boş</div>
+                <div style="font-size: 24px; font-weight: bold; color: var(--success);">
+                    {{ masalar|selectattr('durum', 'equalto', 'bos')|list|length }}
+                </div>
+            </div>
+            <div class="card" style="text-align: center; border-left: 4px solid var(--danger);">
+                <div style="color: var(--muted); font-size: 14px; margin-bottom: 8px;">Bugünkü Rezervasyon</div>
+                <div style="font-size: 24px; font-weight: bold; color: var(--danger);">
+                    {{ masalar|selectattr('durum', 'equalto', 'rezerve')|list|length }}
+                </div>
             </div>
         </div>
 
-        <div class="content">
+        <div class="card">
+            <h2 style="font-family: 'Playfair Display'; color: var(--gold); margin-bottom: 20px;">📅 Hızlı Rezervasyon
+                Oluştur</h2>
 
-            <!-- STAT CARDS -->
-            <div class="brand-header">
-                <div class="brand-line"></div>
-                <div class="brand-content">
-                    <span class="brand-icon">🐾</span>
-                    <h1 class="brand-title">MAYA RESTORAN</h1>
-                    <span class="brand-icon">🐾</span>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+
+            <form id="rezervasyonForm" action="/rezervasyon-olustur" method="POST"
+                style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px;">
+                <input type="text" name="ad" placeholder="Ad" required
+                    style="padding: 12px; background: #0d0d0b; border: 1px solid #333; color: white; border-radius: 6px;">
+                <input type="text" name="soyad" placeholder="Soyad" required
+                    style="padding: 12px; background: #0d0d0b; border: 1px solid #333; color: white; border-radius: 6px;">
+                <input type="text" name="telefon" placeholder="Telefon" required
+                    style="padding: 12px; background: #0d0d0b; border: 1px solid #333; color: white; border-radius: 6px;">
+                <input type="date" name="tarih" required
+                    style="padding: 12px; background: #0d0d0b; border: 1px solid #333; color: white; border-radius: 6px;">
+                <input type="time" name="saat" required
+                    style="padding: 12px; background: #0d0d0b; border: 1px solid #333; color: white; border-radius: 6px;">
+                <input type="number" id="kisi_sayisi" name="kisi_sayisi" placeholder="Kişi Sayısı" min="1" required
+                    style="padding: 12px; background: #0d0d0b; border: 1px solid #333; color: white; border-radius: 6px;">
+                <input type="number" id="masa_id" name="masa_id" placeholder="Masa No" required
+                    style="padding: 12px; background: #0d0d0b; border: 1px solid #333; color: white; border-radius: 6px;">
+
+                <button type="submit"
+                    style="grid-column: span 3; padding: 15px; background: var(--gold); border: none; color: black; font-weight: bold; border-radius: 6px; cursor: pointer; transition: 0.3s;">
+                    REZERVASYONU KAYDET
+                </button>
+            </form>
+        </div>
+
+        <h2 style="font-family: 'Playfair Display'; color: var(--gold); margin: 30px 0 20px;">🪑 Kat Planı & Masa
+            Durumları</h2>
+        <div class="tables-grid">
+            {% for m in masalar %}
+            <div class="table-slot {{ m.durum }}">
+                <div style="font-size: 12px; color: var(--muted);">MASA</div>
+                <div style="font-size: 24px; font-weight: bold; font-family: 'Playfair Display';">{{ m.Masa_ID }}</div>
+                <div style="font-size: 10px; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px;">
+                    {{ m.durum }}
                 </div>
-                <div class="brand-subtitle">Gastronomi & Sanatın Buluşma Noktası</div>
-                <div class="brand-line"></div>
+                <div style="font-size: 9px; color: var(--muted); margin-top: 4px;">Kap: {{ m.Kapasite }}</div>
             </div>
-
-            <!-- MASA HARİTASI -->
-            <div class="tables-map">
-                <div class="section-title">
-                    Masa Durumu <span>— Canlı Salon Görünümü</span>
-                </div>
-                <div class="legend">
-                    <div><span class="legend-dot" style="background:var(--muted);"></span>Boş</div>
-                    <div><span class="legend-dot" style="background:var(--gold);"></span>Dolu (Şu an)</div>
-                    <div><span class="legend-dot" style="background:var(--success);"></span>Rezerveli (Bugün)</div>
-                </div>
-
-                <div class="tables-grid">
-                    {% for m in masalar %}
-                    <div class="table-slot {{ m.durum }}">
-                        <div class="table-no">{{ m.Masa_ID }}</div>
-                        <div class="table-cap">{{ m.Kapasite }} Kişi</div>
-                        <div class="table-loc">{{ m.Konum }}</div>
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-
-            <!-- TWO COL: Rezervasyonlar + Hızlı Rezervasyon -->
-            <div class="two-col">
-                <div class="data-table">
-                    <div class="data-table-header">
-                        <div class="data-table-title">Bugünkü Rezervasyonlar</div>
-                        <button class="btn-sm">Tümünü Gör</button>
-                    </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Müşteri</th>
-                                <th>Saat</th>
-                                <th>Kişi</th>
-                                <th>Masa</th>
-                                <th>Durum</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="color:var(--muted)">R-041</td>
-                                <td>Ayşe Kaya</td>
-                                <td>13:00</td>
-                                <td>4</td>
-                                <td><span class="badge badge-green">M-3</span></td>
-                                <td><span class="badge badge-green">Onaylı</span></td>
-                            </tr>
-                            <tr>
-                                <td style="color:var(--muted)">R-042</td>
-                                <td>Mehmet Demir</td>
-                                <td>14:30</td>
-                                <td>2</td>
-                                <td><span class="badge badge-green">M-6</span></td>
-                                <td><span class="badge badge-green">Onaylı</span></td>
-                            </tr>
-                            <tr>
-                                <td style="color:var(--muted)">R-043</td>
-                                <td>Selin Arslan</td>
-                                <td>19:00</td>
-                                <td>8</td>
-                                <td><span class="badge badge-green">M-11</span></td>
-                                <td><span class="badge badge-gold">Bekliyor</span></td>
-                            </tr>
-                            <tr>
-                                <td style="color:var(--muted)">R-044</td>
-                                <td>Can Yıldız</td>
-                                <td>20:30</td>
-                                <td>5</td>
-                                <td>—</td>
-                                <td><span class="badge badge-red">Atanmadı</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- REZERVASYON FORMU -->
-                <form action="/rezervasyon-yap" method="POST">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Ad</label>
-                            <input class="form-input" type="text" name="ad" placeholder="Ad" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Soyad</label>
-                            <input class="form-input" type="text" name="soyad" placeholder="Soyad" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Telefon</label>
-                            <input class="form-input" type="text" name="telefon" placeholder="0xxx xxx xx xx" required>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Kişi Sayısı</label>
-                            <input class="form-input" type="number" name="kisi_sayisi" placeholder="2" min="1" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Tarih & Saat</label>
-                            <input class="form-input" type="datetime-local" name="tarih_saat" required>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn-primary">Rezervasyon Oluştur</button>
-                </form>
-            </div>
-
-            <!-- MENÜ ÜRÜNLERİ -->
-            <div class="menu-grid">
-                <div class="section-title">Popüler Ürünler <span>— Bugünün Çok Sipariş Edilenleri</span></div>
-                <div class="menu-items">
-                    <div class="menu-item">
-                        <div class="menu-item-emoji">🥩</div>
-                        <div class="menu-item-name">Kuzu Şiş</div>
-                        <div class="menu-item-desc">Közde pişirilmiş, baharatlı kuzu eti</div>
-                        <div class="menu-item-price">₺320</div>
-                        <div class="menu-item-cat">Ana Yemek</div>
-                    </div>
-                    <div class="menu-item">
-                        <div class="menu-item-emoji">🥗</div>
-                        <div class="menu-item-name">Akdeniz Salatası</div>
-                        <div class="menu-item-desc">Taze sebzeler, zeytin, peynir</div>
-                        <div class="menu-item-price">₺145</div>
-                        <div class="menu-item-cat">Başlangıç</div>
-                    </div>
-                    <div class="menu-item">
-                        <div class="menu-item-emoji">🍤</div>
-                        <div class="menu-item-name">Karides Güveç</div>
-                        <div class="menu-item-desc">Tereyağlı, sarımsaklı deniz ürünü</div>
-                        <div class="menu-item-price">₺280</div>
-                        <div class="menu-item-cat">Ana Yemek</div>
-                    </div>
-                    <div class="menu-item">
-                        <div class="menu-item-emoji">🍮</div>
-                        <div class="menu-item-name">Kazandibi</div>
-                        <div class="menu-item-desc">Klasik Türk tatlısı, karamelize</div>
-                        <div class="menu-item-price">₺95</div>
-                        <div class="menu-item-cat">Tatlı</div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SON SİPARİŞLER + MÜŞTERİLER -->
-            <div class="two-col">
-                <div class="data-table">
-                    <div class="data-table-header">
-                        <div class="data-table-title">Açık Siparişler</div>
-                        <button class="btn-sm">Detay</button>
-                    </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Sipariş No</th>
-                                <th>Masa</th>
-                                <th>Ürün Sayısı</th>
-                                <th>Tutar</th>
-                                <th>Durum</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="color:var(--muted)">S-201</td>
-                                <td>Masa 1</td>
-                                <td>3 ürün</td>
-                                <td class="order-total">₺755</td>
-                                <td><span class="badge badge-gold">Hazırlanıyor</span></td>
-                            </tr>
-                            <tr>
-                                <td style="color:var(--muted)">S-202</td>
-                                <td>Masa 5</td>
-                                <td>7 ürün</td>
-                                <td class="order-total">₺1.820</td>
-                                <td><span class="badge badge-green">Servis Edildi</span></td>
-                            </tr>
-                            <tr>
-                                <td style="color:var(--muted)">S-203</td>
-                                <td>Masa 8</td>
-                                <td>2 ürün</td>
-                                <td class="order-total">₺340</td>
-                                <td><span class="badge badge-gold">Bekleniyor</span></td>
-                            </tr>
-                            <tr>
-                                <td style="color:var(--muted)">S-204</td>
-                                <td>Masa 10</td>
-                                <td>4 ürün</td>
-                                <td class="order-total">₺960</td>
-                                <td><span class="badge badge-green">Servis Edildi</span></td>
-                            </tr>
-                            <tr>
-                                <td style="color:var(--muted)">S-205</td>
-                                <td>Masa 1</td>
-                                <td>1 ürün</td>
-                                <td class="order-total">₺145</td>
-                                <td><span class="badge badge-red">İptal</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="data-table">
-                    <div class="data-table-header">
-                        <div class="data-table-title">Son Müşteriler</div>
-                        <button class="btn-sm">Tümü</button>
-                    </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Ad Soyad</th>
-                                <th>Telefon</th>
-                                <th>Rezerv.</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td style="color:var(--muted)">M-024</td>
-                                <td>Ayşe Kaya</td>
-                                <td>0532 111 22 33</td>
-                                <td><span class="badge badge-green">2</span></td>
-                            </tr>
-                            <tr>
-                                <td style="color:var(--muted)">M-025</td>
-                                <td>Mehmet Demir</td>
-                                <td>0541 444 55 66</td>
-                                <td><span class="badge badge-green">1</span></td>
-                            </tr>
-                            <tr>
-                                <td style="color:var(--muted)">M-026</td>
-                                <td>Selin Arslan</td>
-                                <td>0555 777 88 99</td>
-                                <td><span class="badge badge-gold">0</span></td>
-                            </tr>
-                            <tr>
-                                <td style="color:var(--muted)">M-027</td>
-                                <td>Can Yıldız</td>
-                                <td>0505 123 45 67</td>
-                                <td><span class="badge badge-green">3</span></td>
-                            </tr>
-                            <tr>
-                                <td style="color:var(--muted)">M-028</td>
-                                <td>Elif Şahin</td>
-                                <td>0542 999 00 11</td>
-                                <td><span class="badge badge-green">1</span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
+            {% endfor %}
         </div>
     </main>
 
+    <script>
+        document.getElementById('rezervasyonForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const formData = new FormData(this);
+            const kisiSayisi = parseInt(formData.get('kisi_sayisi'));
+            const masaId = formData.get('masa_id');
+
+            try {
+                const response = await fetch(`/kapasite-kontrol?masa_id=${masaId}&kisi=${kisiSayisi}`);
+                const data = await response.json();
+
+                if (!data.uygun) {
+                    Swal.fire({
+                        title: 'Kapasite Yetersiz!',
+                        text: `Seçtiğiniz masa ${data.kapasite} kişiliktir. ${kisiSayisi} kişi için ek masa rezerve edilmesi gerekiyor. Devam etmek istiyor musunuz?`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#c9a84c',
+                        cancelButtonColor: '#c0453a',
+                        confirmButtonText: 'Evet, Ek Masa Ayarla',
+                        cancelButtonText: 'İptal',
+                        background: '#151512',
+                        color: '#f0ece2'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.submit();
+                        }
+                    });
+                } else {
+                    this.submit();
+                }
+            } catch (error) {
+                console.error("Hata:", error);
+                this.submit();
+            }
+        });
+    </script>
 </body>
 
 </html>
